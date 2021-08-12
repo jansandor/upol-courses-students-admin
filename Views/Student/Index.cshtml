@@ -1,0 +1,45 @@
+@model cv8_mvc.Models.Student
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<h2>Students</h2>
+<a asp-controller="Student" asp-action="Create">Create New Student</a>
+<hr>
+@if (ViewBag.Students.Count == 0)
+{
+    <h3 class="text-center">No Students to Show</h3>    
+}
+else
+{
+    <div class="text-center">
+    <table class="table-all">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.PersonalNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.FirstName)</th>
+            <th>@Html.DisplayNameFor(model => model.LastName)</th>
+            <th>@Html.DisplayNameFor(model => model.Faculty)</th>
+            <th>@Html.DisplayNameFor(model => model.Specialization)</th>
+            <th>@Html.DisplayNameFor(model => model.YearOfStudy)</th>
+            <th>Actions</th>
+        </tr>
+        @foreach (var s in ViewBag.Students)
+            {
+                <tr>
+                    <td>@s.PersonalNumber</td>
+                    <td>@s.FirstName</td>
+                    <td>@s.LastName</td>
+                    <td>@s.Faculty</td>
+                    <td>@s.Specialization</td>
+                    <td>@s.YearOfStudy</td>
+                    <td>
+                        <a asp-controller="Student" asp-action="Details" asp-route-id="@s.StudentId">Details</a> |
+                        <a asp-controller="Student" asp-action="Edit" asp-route-id="@s.StudentId">Edit</a> |
+                        <a asp-controller="Student" asp-action="Delete" asp-route-id="@s.StudentId">Remove</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}

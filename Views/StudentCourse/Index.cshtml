@@ -1,0 +1,73 @@
+@model cv8_mvc.Models.StudentCourse
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+<h2>Courses, Students & Grades</h2>
+<a asp-controller="Course" asp-action="Create">Create New Course</a> |
+<a asp-controller="Student" asp-action="Create">Create New Student</a>
+<hr>
+<hr>
+@if (ViewBag.Enrollments.Count == 0)
+{
+    <h3>No enrollments to show.</h3>
+}
+else
+{
+    @for (int i = 0; i < ViewBag.Enrollments.Count; i++)
+    {
+        var studentCourse = ((IGrouping<int, StudentCourse>)ViewBag.Enrollments[i]).First();
+        <h3 class="nowrap">@studentCourse.Course.CourseNameAbbreviation</h3>
+        <span>
+    <a asp-controller="Course" asp-action="Details" asp-route-id="@studentCourse.CourseId">Details</a> |
+    <a asp-controller="Course" asp-action="Edit" asp-route-id="@studentCourse.CourseId">Edit</a> |
+    <a asp-controller="Course" asp-action="Delete" asp-route-id="@studentCourse.CourseId">Delete</a>
+</span>
+        <p>@studentCourse.Course.CourseName</p>
+        <p></p>
+        <span>
+    <h4 class="nowrap">Course Students</h4>
+    <a asp-controller="StudentCourse" asp-action="EditCourseGrades" asp-route-id="@studentCourse.CourseId">Edit
+        Grades</a>
+</span>
+        <hr>
+        <table class="table-courses text-center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Student)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseStatute)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentGrade)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (StudentCourse enrollment in ViewBag.Enrollments[i])
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="Student" asp-action="Details" asp-route-id="@enrollment.StudentId">
+                                @Html.DisplayFor(model => enrollment.Student.FullName)
+                            </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => enrollment.CourseStatute.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => enrollment.StudentGrade.Value)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br>
+        <hr>
+        <hr>
+    }
+}

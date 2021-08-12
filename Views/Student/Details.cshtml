@@ -1,0 +1,92 @@
+@model cv8_mvc.Models.Student
+@{
+    ViewData["Title"] = "Details";
+}
+<h1>Details</h1>
+<h2>Student</h2>
+<table class="table-students-details">
+    <tr>
+        <th></th>
+        <th></th>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.PersonalNumber):</td>
+        <td>@Html.DisplayFor(model => model.PersonalNumber)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.CardNumber):</td>
+        <td>@Html.DisplayFor(model => model.CardNumber)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.FirstName):</td>
+        <td>@Html.DisplayFor(model => model.FirstName)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.LastName):</td>
+        <td>@Html.DisplayFor(model => model.LastName)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Gender):</td>
+        <td>@Html.DisplayFor(model => model.Gender)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.UserName):</td>
+        <td>@Html.DisplayFor(model => model.UserName)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Email):</td>
+        <td>@Html.DisplayFor(model => model.Email)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Faculty):</td>
+        <td>@Html.DisplayFor(model => model.Faculty)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.StudyProgramName):</td>
+        <td>@Html.DisplayFor(model => model.StudyProgramName)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.StudyProgramCode):</td>
+        <td>@Html.DisplayFor(model => model.StudyProgramCode)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.Specialization):</td>
+        <td>@Html.DisplayFor(model => model.Specialization)</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(model => model.YearOfStudy):</td>
+        <td>@Html.DisplayFor(model => model.YearOfStudy)</td>
+    </tr>
+</table>
+<br>
+<a asp-controller="Student" asp-action="Edit" asp-route-id="@Model.StudentId">Edit</a> |
+<a asp-controller="Student" asp-action="Delete" asp-route-id="@Model.StudentId">Remove This Student</a> |
+<a asp-controller="Student" asp-action="Index">Back To List</a>
+<hr>
+<h2>Student Courses & Grades</h2>
+<a asp-controller="StudentCourse" asp-action="Create" asp-route-id="@Model.StudentId">Enroll This Student in a
+    Course</a>
+@if (ViewBag.StudentCourses.Count == 0)
+{
+    <p>Student is not enrolled in any course.</p>
+}
+else
+{
+    <table class="table-students-details text-center">
+    <tr>
+        <th>Course</th>
+        <th>Course Statute</th>
+        <th>Grade</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var enrollment in ViewBag.StudentCourses)
+        {
+            <tr>
+                <td>@enrollment.Course.CourseNameAbbreviation</td>
+                <td>@enrollment.CourseStatute.Value</td>
+                <td>@enrollment.StudentGrade.Value</td>
+                <td><a asp-controller="StudentCourse" asp-action="RemoveEnrollment" asp-route-sid="@enrollment.StudentId" asp-route-cid="@enrollment.CourseId">Leave This Course</a></td>
+            </tr>
+        }
+    </table>
+}

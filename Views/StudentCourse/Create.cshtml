@@ -1,0 +1,45 @@
+@model cv8_mvc.ViewModels.StudentCourseEnrollmentVM
+
+@{
+    ViewData["Title"] = "Course Enrollment";
+}
+
+<h1>Create</h1>
+<h2>Course Enrollment</h2>
+<hr />
+@if (Model.Courses.Count == 0)
+{
+    <p>There is no course left to enroll. This student is enrolled in all courses.</p>
+}
+else
+{
+    <div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="StudentId" class="control-label"></label>
+                <select asp-for="StudentId" class="form-control" asp-items="Model.Students"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseId" class="control-label"></label>
+                <select asp-for="CourseId" class="form-control" asp-items="Model.Courses"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseStatuteId" class="control-label"></label>
+                <select asp-for="CourseStatuteId" class="form-control" asp-items="Model.CourseStatutes"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Get Enrolled" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+}
+<a asp-controller="Student" asp-action="Index">Back to Student List</a>
+<br>
+<a asp-controller="Student" asp-action="Details" asp-route-id="@ViewBag.Student.StudentId">Back to Student Details</a>
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

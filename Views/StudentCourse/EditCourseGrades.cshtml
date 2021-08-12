@@ -1,0 +1,48 @@
+@model IEnumerable<cv8_mvc.ViewModels.EditCourseGradesVM>
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<h1>Edit Grades</h1>
+<h2>in @ViewBag.Course.CourseNameAbbreviation Course</h2>
+<a asp-controller="Course" asp-action="Index">Back to List</a> |
+<a asp-controller="Course" asp-action="Details" asp-route-id="@ViewBag.Course.CourseId">Back to Student Details</a>
+<hr>
+<table class="table-edit-grades text-center">
+    <thead>
+        <tr>
+            <th>Student</th>
+            <th>Course Statute</th>
+            <th>Current Grade</th>
+            <th>New Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Student.FullName</td>
+                <td>@item.CourseStatute.Value</td>
+                <td>@item.CurrentGrade.Value</td>
+                <td>
+                    <form asp-action="EditCourseGrades">
+                        <input type="hidden" id="StudentId" name="StudentId" value="@item.StudentId" />
+                        <input type="hidden" id="CourseId" name="CourseId" value="@item.CourseId" />
+                        <select id="GradeId" name="GradeId">
+                            @foreach (var grade in item.Grades)
+                            {
+                                <option value="@grade.Value">@grade.Text</option>
+                            }
+                        </select>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </form>
+                    @* jak udelat "Save All"? Celkove je tohle takovy reseni spis aby to bylo *@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

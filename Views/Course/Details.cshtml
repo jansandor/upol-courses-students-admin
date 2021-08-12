@@ -1,0 +1,59 @@
+@model cv8_mvc.Models.Course
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+<h2>Course</h2>
+<hr />
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CourseName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CourseName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CourseNameAbbreviation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CourseNameAbbreviation)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.CourseId">Edit</a> |
+    <a asp-action="Index">Back to List</a> | 
+    <a asp-action="Delete" asp-route-id="@Model.CourseId">Delete This Course</a>
+</div>
+<hr />
+<h2>Students Enrolled in this Course</h2>
+@if(ViewBag.CourseStudents.Count == 0){
+    <p>No Students Enrolled in this Course.</p>
+}
+else{
+    <a asp-controller="StudentCourse" asp-action="EditCourseGrades" asp-route-id="@Model.CourseId">Edit Grades</a>
+    <table class="table-enrolled-students text-center">
+    <tr>
+        <th>Student</th>
+        <th>Course Statute</th>
+        <th>Grade</th>
+    </tr>
+    @foreach (var enrollment in ViewBag.CourseStudents)
+        {
+            <tr>
+                <td>@enrollment.Student.FullName</td>
+                <td>@enrollment.CourseStatute.Value</td>
+                <td>@enrollment.StudentGrade.Value</td>
+            </tr>
+        }
+    </table>
+}
